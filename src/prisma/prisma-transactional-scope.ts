@@ -14,19 +14,21 @@ export class PrismaTransactionScope implements UnitOfWork {
     this.transactionContext = clsService.getContext();
   }
 
-  async runInTransaction(fn: () => Promise<void>): Promise<void> {
+  async runInTransaction<T>(fn: () => Promise<T>): Promise<T> {
     const prisma = this.transactionContext.get(
       PRISMA_CLIENT_KEY,
     ) as Prisma.TransactionClient;
 
     if (prisma) {
-      await fn();
+      const res = await fn();
+      return res;
     } else {
       await this.prisma.$transaction(async (prisma) => {
         await this.transactionContext.runPromise(async () => {
           this.transactionContext.set(PRISMA_CLIENT_KEY, prisma);
           try {
-            await fn();
+            const res = await fn();
+            return res;
           } catch (err) {
             this.transactionContext.set(PRISMA_CLIENT_KEY, null);
             throw err;

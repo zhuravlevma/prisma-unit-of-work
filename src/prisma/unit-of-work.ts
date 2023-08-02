@@ -1,3 +1,3 @@
 export abstract class UnitOfWork {
-  abstract runInTransaction(fn: () => Promise<void>): Promise<void>;
+  abstract runInTransaction<T>(fn: () => Promise<T>): Promise<T>;
 }
