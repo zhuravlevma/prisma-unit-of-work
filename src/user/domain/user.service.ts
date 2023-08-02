@@ -2,7 +2,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { UserRepository } from '../dal/user.repository';
-import { UnitOfWork as UnitOfWork } from 'src/lib/unit-of-work';
+import { UnitOfWork as UnitOfWork } from 'src/prisma/unit-of-work';
 
 @Injectable()
 export class UserService {
