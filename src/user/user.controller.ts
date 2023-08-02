@@ -7,7 +7,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { UserService } from './domain/user.service';
 
 class UserEntity {
@@ -29,7 +29,7 @@ export class UserController {
   @ApiBody({ type: UserEntity })
   async createUser(@Body() userData: Prisma.UserCreateInput) {
     try {
-      const user = await this.userService.createUser(1, userData);
+      const user = await this.userService.createUser(userData);
       return user;
     } catch (error) {
       throw new HttpException(

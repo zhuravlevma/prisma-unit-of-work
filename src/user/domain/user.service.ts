@@ -11,13 +11,10 @@ export class UserService {
     private readonly unitOfWork: UnitOfWork,
   ) {}
 
-  async createUser(
-    userId: number,
-    userData: Prisma.UserCreateInput,
-  ): Promise<void> {
+  async createUser(userData: Prisma.UserCreateInput): Promise<void> {
     return this.unitOfWork
       .runInTransaction(async () => {
-        await this.userRepository.update(userId, userData);
+        await this.userRepository.update(1, { age: 344 });
         return this.userRepository.create(userData);
       })
       .catch((err) => console.log(err));
