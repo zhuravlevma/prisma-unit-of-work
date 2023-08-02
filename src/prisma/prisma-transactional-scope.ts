@@ -7,7 +7,7 @@ import { Injectable, Scope } from '@nestjs/common';
 
 export const PRISMA_CLIENT_KEY = 'prisma';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class PrismaTransactionScope implements UnitOfWork {
   private readonly transactionContext: cls.Namespace;
   constructor(private readonly prisma: PrismaService, clsService: CLSService) {
