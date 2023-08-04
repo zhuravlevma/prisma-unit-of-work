@@ -5,15 +5,20 @@ import {
   Body,
   HttpStatus,
   HttpException,
+  Get,
 } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
 import { UserService } from './domain/user.service';
 
 class UserEntity {
+  @ApiProperty()
   username: string;
+  @ApiProperty()
   email: string;
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   age: number;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -23,6 +28,21 @@ class UserEntity {
 @ApiTags('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get()
+  async getUsers() {
+    try {
+      const user = await this.userService.getUser();
+      return user;
+    } catch (error) {
+      console.log(error);
+
+      throw new HttpException(
+        'Failed to create user',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })

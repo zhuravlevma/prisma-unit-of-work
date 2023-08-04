@@ -8,7 +8,6 @@ import { UserRepository } from './user/dal/user.repository';
 import { PrismaTransactionScope } from './prisma/prisma-transactional-scope';
 import { UnitOfWork } from './prisma/unit-of-work';
 import { CLSService } from './prisma/cls.service';
-import { PrismaCustomClient } from './prisma/prisma-custom';
 
 @Module({
   imports: [],
@@ -17,7 +16,6 @@ import { PrismaCustomClient } from './prisma/prisma-custom';
     AppService,
     UserService,
     PrismaTransactionScope,
-    PrismaCustomClient,
     UserRepository,
     CLSService,
     PrismaService,

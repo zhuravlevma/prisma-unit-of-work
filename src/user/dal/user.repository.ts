@@ -1,23 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
-import { PrismaCustomClient } from 'src/prisma/prisma-custom';
+import { PrismaTransactionScope } from 'src/prisma/prisma-transactional-scope';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prisma: PrismaCustomClient) {}
+  constructor(private readonly service: PrismaTransactionScope) {}
 
   async create(user: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.getInstance().user.create({
+    return this.service.manager.user.create({
       data: user,
     });
   }
 
   async getUsers(): Promise<User[]> {
-    return this.prisma.getInstance().user.findMany();
+    return this.service.manager.user.findMany();
   }
 
   async update(userId: number, userData: Prisma.UserUpdateInput): Promise<any> {
-    return this.prisma.getInstance().user.update({
+    return this.service.manager.user.update({
       where: { id: userId },
       data: userData,
     });
