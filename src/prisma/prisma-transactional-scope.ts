@@ -17,7 +17,9 @@ export class PrismaTransactionScope implements UnitOfWork {
   async runInTransaction<T>(fn: (manager: any) => Promise<T>): Promise<T> {
     return await this.prisma.$transaction(async (manager) => {
       this.manager = manager;
-      return await fn(manager);
+      const res = await fn(manager);
+      this.manager = null;
+      return res;
     });
   }
 }
