@@ -49,7 +49,7 @@ export class UserController {
   @ApiBody({ type: UserEntity })
   async createUser(@Body() userData: Prisma.UserCreateInput) {
     try {
-      const user = await this.userService.createUser(userData);
+      const user = await this.userService.createUser2(userData);
       return user;
     } catch (error) {
       throw new HttpException(

@@ -1,3 +1,5 @@
-export abstract class UnitOfWork {
-  abstract runInTransaction<T>(fn: (manager?: any) => Promise<T>): Promise<T>;
+export abstract class UnitOfWork<T, C> {
+  abstract runInTransaction<R>(fn: (manager?: any) => Promise<R>): Promise<R>;
+  abstract create(): UnitOfWork<T, C>;
+  abstract getClient(): C;
 }

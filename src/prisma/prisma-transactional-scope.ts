@@ -8,10 +8,18 @@ import { Injectable, Scope } from '@nestjs/common';
 export const PRISMA_CLIENT_KEY = 'prisma';
 
 @Injectable({ scope: Scope.REQUEST })
-export class PrismaTransactionScope implements UnitOfWork {
+export class PrismaTransactionScope
+  implements UnitOfWork<PrismaTransactionScope, Prisma.TransactionClient>
+{
   public manager: Prisma.TransactionClient;
   constructor(private readonly prisma: PrismaService) {
     this.manager = prisma;
+  }
+  create(): UnitOfWork<PrismaTransactionScope, Prisma.TransactionClient> {
+    return new PrismaTransactionScope(new PrismaService());
+  }
+  getClient(): Prisma.TransactionClient {
+    return this.manager;
   }
 
   async runInTransaction<T>(fn: (manager: any) => Promise<T>): Promise<T> {
