@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaTransactionScope } from 'src/prisma/prisma-transactional-scope';
-import { UnitOfWork } from 'src/prisma/unit-of-work';
-
 @Injectable()
 export class UserRepository {
   constructor(private readonly service: PrismaTransactionScope) {}

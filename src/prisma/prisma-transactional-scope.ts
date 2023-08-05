@@ -1,8 +1,6 @@
 import { Prisma } from '@prisma/client';
-import * as cls from 'cls-hooked';
 import { UnitOfWork } from './unit-of-work';
 import { PrismaService } from './prisma.service';
-import { CLSService } from './cls.service';
 import { Injectable, Scope } from '@nestjs/common';
 
 export const PRISMA_CLIENT_KEY = 'prisma';

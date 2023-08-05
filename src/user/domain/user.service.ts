@@ -15,9 +15,7 @@ export class UserService {
   ) {}
 
   async getUser(): Promise<User[]> {
-    return this.unitOfWork.runInTransaction(() => {
-      return this.userRepository.getUsers();
-    });
+    return this.userRepository.getUsers();
   }
 
   async createUser(userData: Prisma.UserCreateInput): Promise<any> {
