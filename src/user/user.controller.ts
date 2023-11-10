@@ -1,4 +1,3 @@
-// user.controller.ts
 import {
   Controller,
   Post,
@@ -35,8 +34,6 @@ export class UserController {
       const user = await this.userService.getUser();
       return user;
     } catch (error) {
-      console.log(error);
-
       throw new HttpException(
         'Failed to create user',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -44,10 +41,25 @@ export class UserController {
     }
   }
 
-  @Post()
+  @Post('/create1')
   @ApiOperation({ summary: 'Create a new user' })
   @ApiBody({ type: UserEntity })
   async createUser(@Body() userData: Prisma.UserCreateInput) {
+    try {
+      const user = await this.userService.createUser(userData);
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        'Failed to create user',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post('/create2')
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiBody({ type: UserEntity })
+  async createUser2(@Body() userData: Prisma.UserCreateInput) {
     try {
       const user = await this.userService.createUser2(userData);
       return user;

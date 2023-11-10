@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/domain/user.service';
@@ -11,9 +9,8 @@ import { CLSService } from './prisma/cls.service';
 
 @Module({
   imports: [],
-  controllers: [AppController, UserController],
+  controllers: [UserController],
   providers: [
-    AppService,
     UserService,
     PrismaTransactionScope,
     UserRepository,
