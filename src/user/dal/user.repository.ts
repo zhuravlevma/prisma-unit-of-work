@@ -1,42 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
-import { PrismaTransactionScope } from 'src/prisma/prisma-transactional-scope';
+import { PrismaService } from 'src/prisma/prisma.service';
+
 @Injectable()
 export class UserRepository {
-  constructor(private readonly service: PrismaTransactionScope) {}
-
-  async create(user: Prisma.UserCreateInput): Promise<User> {
-    return this.service.manager.user.create({
-      data: user,
-    });
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   async getUsers(): Promise<User[]> {
-    return this.service.manager.user.findMany();
+    return this.prisma.user.findMany();
   }
 
-  async update(userId: number, userData: Prisma.UserUpdateInput): Promise<any> {
-    return this.service.manager.user.update({
-      where: { id: userId },
-      data: userData,
-    });
-  }
-
-  async create2(
-    client: Prisma.TransactionClient,
-    user: Prisma.UserCreateInput,
+  async create(
+    body: Prisma.UserCreateInput,
+    params: { tx: Prisma.TransactionClient },
   ): Promise<User> {
-    return client.user.create({
-      data: user,
+    return params.tx.user.create({
+      data: body,
     });
   }
 
-  async update2(
-    cleint: Prisma.TransactionClient,
+  async update(
     userId: number,
     userData: Prisma.UserUpdateInput,
+    params: { tx: Prisma.TransactionClient },
   ): Promise<any> {
-    return cleint.user.update({
+    return params.tx.user.update({
       where: { id: userId },
       data: userData,
     });
